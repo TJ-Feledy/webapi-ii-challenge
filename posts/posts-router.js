@@ -94,4 +94,26 @@ router.get('/:id/comments/', async (req, res) => {
   }
 })
 
+router.delete('/:id/', async (req, res) => {
+  const postRemove = await db.remove(req.params.id)
+  const post = await db.findById(req.params.id)
+
+  if (post.length === 0) {
+    res.status(404).json({
+      message: 'The post with the specified ID does not exist.'
+    })
+  }else {
+    try {
+      res.status(200).json({
+        message: 'The user was Removed'
+      })
+    }
+    catch {
+      res.status(500).json({
+        error: 'The post could not be removed.'
+      })
+    }
+  }
+})
+
 module.exports = router
